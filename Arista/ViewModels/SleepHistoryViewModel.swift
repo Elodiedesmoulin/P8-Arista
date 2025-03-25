@@ -6,36 +6,37 @@
 //
 
 import Foundation
-import CoreData
 
-class SleepHistoryViewModel: ObservableObject {
-    @Published var sleepSessions = [FakeSleepSession]()
-    
-    private var viewContext: NSManagedObjectContext
-    
-    init(context: NSManagedObjectContext) {
-        self.viewContext = context
-        fetchSleepSessions()
-    }
-    
-    private func fetchSleepSessions() {
-        
-        sleepSessions = [FakeSleepSession(), 
-                         FakeSleepSession(),
-                         FakeSleepSession(),
-                         FakeSleepSession(),
-                         FakeSleepSession(),
-                         FakeSleepSession(),
-                         FakeSleepSession(),
-                         FakeSleepSession(),
-                         FakeSleepSession(),
-                         FakeSleepSession()]
-    }
+struct SleepDisplay: Identifiable {
+    let id: UUID
+    let startDate: Date
+    let duration: Int
+    let quality: Int
 }
 
-struct FakeSleepSession: Identifiable {
-    var id = UUID()
-    var startDate: Date = Date()
-    var duration: Int = 695
-    var quality: Int = (0...10).randomElement()!
+class SleepHistoryViewModel: ObservableObject {
+    @Published var sleepSessions: [SleepDisplay] = []
+
+    private let sleepRepository: SleepRepository
+
+    init(sleepRepository: SleepRepository) {
+        self.sleepRepository = sleepRepository
+        fetchSleepData()
+    }
+
+    func fetchSleepData() {
+        do {
+            let sessions = try sleepRepository.fetchAllSleepSessions()
+            sleepSessions = sessions.map {
+                SleepDisplay(
+                    id: $0.id ?? UUID(),
+                    startDate: $0.startDate ?? Date(),
+                    duration: Int($0.duration),
+                    quality: Int($0.quality)
+                )
+            }
+        } catch {
+            print("Error fetching sleep sessions: \(error)")
+        }
+    }
 }

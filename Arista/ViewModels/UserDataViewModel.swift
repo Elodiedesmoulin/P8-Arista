@@ -6,22 +6,30 @@
 //
 
 import Foundation
-import CoreData
 
 class UserDataViewModel: ObservableObject {
     @Published var firstName: String = ""
     @Published var lastName: String = ""
+    @Published var email: String = ""
+    @Published var password: String = ""
 
-    private var viewContext: NSManagedObjectContext
+    private let userRepository: UserRepository
 
-    init(context: NSManagedObjectContext) {
-        self.viewContext = context
-        fetchUserData()
+    init(userRepository: UserRepository) {
+        self.userRepository = userRepository
+        fetchUser()
     }
 
-    private func fetchUserData() {
-        // TODO: fetch data in CoreData and replace dumb value below with appropriate information
-        firstName = "Charlotte"
-        lastName = "Corino"
+    private func fetchUser() {
+        do {
+            if let user = try userRepository.fetchSingleUser() {
+                firstName = user.firstName ?? ""
+                lastName = user.lastName ?? ""
+                email = user.email ?? ""
+                password = user.password ?? ""
+            }
+        } catch {
+            print("Error fetching single user: \(error)")
+        }
     }
 }

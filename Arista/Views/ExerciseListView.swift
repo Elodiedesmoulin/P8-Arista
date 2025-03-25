@@ -10,7 +10,8 @@ import SwiftUI
 struct ExerciseListView: View {
     @ObservedObject var viewModel: ExerciseListViewModel
     @State private var showingAddExerciseView = false
-    
+    @Environment(\.managedObjectContext) private var viewContext
+
     var body: some View {
         NavigationView {
             List(viewModel.exercises) { exercise in
@@ -23,7 +24,6 @@ struct ExerciseListView: View {
                             .font(.subheadline)
                         Text(exercise.date.formatted())
                             .font(.subheadline)
-                        
                     }
                     Spacer()
                     IntensityIndicator(intensity: exercise.intensity)
@@ -37,25 +37,33 @@ struct ExerciseListView: View {
             })
         }
         .sheet(isPresented: $showingAddExerciseView) {
-            AddExerciseView(viewModel: AddExerciseViewModel(context: viewModel.viewContext))
+            AddExerciseView(
+                viewModel: AddExerciseViewModel(
+                    exerciseRepository: CoreDataExerciseRepository(context: viewContext),
+                    userRepository: CoreDataUserRepository(context: viewContext)
+                ),
+                onExerciseAdded: {
+                    viewModel.fetchExercises()
+                }
+            )
         }
-        
     }
     
     func iconForCategory(_ category: String) -> String {
-        switch category {
-        case "Football":
-            return "sportscourt"
-        case "Natation":
-            return "waveform.path.ecg"
-        case "Running":
-            return "figure.run"
-        case "Marche":
-            return "figure.walk"
-        case "Cyclisme":
-            return "bicycle"
-        default:
+        guard let cat = ExerciseCategory(rawValue: category) else {
             return "questionmark"
+        }
+        switch cat {
+        case .football:
+            return "sportscourt"
+        case .natation:
+            return "waveform.path.ecg"
+        case .running:
+            return "figure.run"
+        case .marche:
+            return "figure.walk"
+        case .cyclisme:
+            return "bicycle"
         }
     }
 }
@@ -83,6 +91,8 @@ struct IntensityIndicator: View {
     }
 }
 
-#Preview {
-    ExerciseListView(viewModel: ExerciseListViewModel(context: PersistenceController.preview.container.viewContext))
-}
+//#Preview {
+//    let context = PersistenceController.preview.container.viewContext
+//    let exerciseRepo = CoreDataExerciseRepository(context: context)
+//    return ExerciseListView(viewModel: ExerciseListViewModel(exerciseRepository: exerciseRepo))
+//}

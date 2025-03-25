@@ -9,25 +9,25 @@ import SwiftUI
 
 struct SleepHistoryView: View {
     @ObservedObject var viewModel: SleepHistoryViewModel
-
-        var body: some View {
-            List(viewModel.sleepSessions) { session in
-                HStack {
-                    QualityIndicator(quality: session.quality)
-                        .padding()
-                    VStack(alignment: .leading) {
-                        Text("Début : \(session.startDate.formatted())")
-                        Text("Durée : \(session.duration/60) heures")
-                    }
+    
+    var body: some View {
+        List(viewModel.sleepSessions) { session in
+            HStack {
+                QualityIndicator(quality: session.quality)
+                    .padding()
+                VStack(alignment: .leading) {
+                    Text("Début : \(session.startDate.formatted())")
+                    Text("Durée : \(session.duration/60) heures")
                 }
             }
-            .navigationTitle("Historique de Sommeil")
         }
+        .navigationTitle("Historique de Sommeil")
+    }
 }
 
 struct QualityIndicator: View {
     let quality: Int
-
+    
     var body: some View {
         ZStack {
             Circle()
@@ -38,9 +38,9 @@ struct QualityIndicator: View {
                 .foregroundColor(qualityColor(quality))
         }
     }
-
+    
     func qualityColor(_ quality: Int) -> Color {
-        switch (10-quality) {
+        switch (10 - quality) {
         case 0...3:
             return .green
         case 4...6:
@@ -53,6 +53,8 @@ struct QualityIndicator: View {
     }
 }
 
-#Preview {
-    SleepHistoryView(viewModel: SleepHistoryViewModel(context: PersistenceController.preview.container.viewContext))
-}
+//#Preview {
+//    let context = PersistenceController.preview.container.viewContext
+//    let sleepRepo = CoreDataSleepSessionRepository(context: context)
+//    SleepHistoryView(viewModel: SleepHistoryViewModel(sleepRepository: sleepRepo))
+//}

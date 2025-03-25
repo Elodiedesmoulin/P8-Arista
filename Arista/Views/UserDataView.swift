@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserDataView: View {
     @ObservedObject var viewModel: UserDataViewModel
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
@@ -28,6 +28,8 @@ struct UserDataView: View {
     }
 }
 
-#Preview {
-    UserDataView(viewModel: UserDataViewModel(context: PersistenceController.preview.container.viewContext))
-}
+//#Preview {
+//    let context = PersistenceController.preview.container.viewContext
+//    let userRepo = CoreDataUserRepository(context: context)
+//    UserDataView(viewModel: UserDataViewModel(userRepository: userRepo))
+//}

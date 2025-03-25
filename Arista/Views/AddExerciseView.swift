@@ -10,30 +10,47 @@ import SwiftUI
 struct AddExerciseView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: AddExerciseViewModel
+    var onExerciseAdded: (() -> Void)? 
 
     var body: some View {
         NavigationView {
             VStack {
                 Form {
-                    TextField("Catégorie", text: $viewModel.category)
-                    TextField("Heure de démarrage", text: $viewModel.startTime)
-                    TextField("Durée (en minutes)", text: $viewModel.duration)
-                    TextField("Intensité (0 à 10)", text: $viewModel.intensity)
-                }.formStyle(.grouped)
+                    Picker("Category", selection: $viewModel.selectedCategory) {
+                        ForEach(ExerciseCategory.allCases) { category in
+                            Text(category.rawValue).tag(category)
+                        }
+                    }
+                    TextField("Start Time (MM/dd/yyyy HH:mm)", text: $viewModel.startTime)
+                        .keyboardType(.numbersAndPunctuation)
+                    TextField("Duration (minutes)", text: $viewModel.duration)
+                        .keyboardType(.numberPad)
+                    TextField("Intensity (0-10)", text: $viewModel.intensity)
+                        .keyboardType(.numberPad)
+                }
+                .formStyle(.grouped)
                 Spacer()
-                Button("Ajouter l'exercice") {
+                Button("Add Exercise") {
                     if viewModel.addExercise() {
                         presentationMode.wrappedValue.dismiss()
+                        onExerciseAdded?()
                     }
-                }.buttonStyle(.borderedProminent)
-                    
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .navigationTitle("Nouvel Exercice ...")
-            
+            .navigationTitle("New Exercise")
         }
     }
 }
 
-#Preview {
-    AddExerciseView(viewModel: AddExerciseViewModel(context: PersistenceController.preview.container.viewContext))
-}
+
+//#Preview {
+//    let context = PersistenceController.preview.container.viewContext
+//    return AddExerciseView(
+//        viewModel: AddExerciseViewModel(
+//            exerciseRepository: CoreDataExerciseRepository(context: context),
+//            userRepository: CoreDataUserRepository(context: context)
+//        ),
+//        onExerciseAdded: { }
+//    )
+//}

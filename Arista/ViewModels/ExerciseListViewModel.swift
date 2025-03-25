@@ -7,29 +7,51 @@
 
 import Foundation
 
-import CoreData
+struct ExerciseDisplay: Identifiable {
+    let id: UUID
+    let category: String
+    let date: Date
+    let duration: Int
+    let intensity: Int
+}
 
 class ExerciseListViewModel: ObservableObject {
-    @Published var exercises = [FakeExercise]()
+    @Published var exercises: [ExerciseDisplay] = []
 
-    var viewContext: NSManagedObjectContext
+    private let exerciseRepository: ExerciseRepository
 
-    init(context: NSManagedObjectContext) {
-        self.viewContext = context
+    init(exerciseRepository: ExerciseRepository) {
+        self.exerciseRepository = exerciseRepository
         fetchExercises()
     }
 
-    private func fetchExercises() {
-        // TODO: fetch data in CoreData and replace dumb value below with appropriate information
-        exercises = [FakeExercise(), FakeExercise(), FakeExercise()]
+    func fetchExercises() {
+        do {
+            let list = try exerciseRepository.fetchAllExercises()
+            exercises = list.map {
+                ExerciseDisplay(
+                    id: $0.id ?? UUID(),
+                    category: $0.exerciseCategory.rawValue, 
+                    date: $0.date ?? Date(),
+                    duration: Int($0.duration),
+                    intensity: Int($0.intensity)
+                )
+            }
+        } catch {
+            print("Error fetching exercises: \(error)")
+            exercises = []
+        }
     }
-}
 
-struct FakeExercise: Identifiable {
-    var id = UUID()
-    
-    var category: String = "Football"
-    var duration: Int = 120
-    var intensity: Int = 8
-    var date: Date = Date()
+    func deleteExercise(by id: UUID) {
+        do {
+            let list = try exerciseRepository.fetchAllExercises()
+            if let exercise = list.first(where: { $0.id == id }) {
+                try exerciseRepository.deleteExercise(exercise)
+                fetchExercises()
+            }
+        } catch {
+            print("Error deleting exercise: \(error)")
+        }
+    }
 }
