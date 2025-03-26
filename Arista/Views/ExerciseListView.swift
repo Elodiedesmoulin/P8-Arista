@@ -14,20 +14,23 @@ struct ExerciseListView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.exercises) { exercise in
-                HStack {
-                    Image(systemName: iconForCategory(exercise.category))
-                    VStack(alignment: .leading) {
-                        Text(exercise.category)
-                            .font(.headline)
-                        Text("Durée: \(exercise.duration) min")
-                            .font(.subheadline)
-                        Text(exercise.date.formatted())
-                            .font(.subheadline)
+            List {
+                ForEach(viewModel.exercises) { exercise in
+                    HStack {
+                        Image(systemName: iconForCategory(exercise.category))
+                        VStack(alignment: .leading) {
+                            Text(exercise.category)
+                                .font(.headline)
+                            Text("Durée: \(exercise.duration) min")
+                                .font(.subheadline)
+                            Text(exercise.date.formatted())
+                                .font(.subheadline)
+                        }
+                        Spacer()
+                        IntensityIndicator(intensity: exercise.intensity)
                     }
-                    Spacer()
-                    IntensityIndicator(intensity: exercise.intensity)
                 }
+                .onDelete(perform: deleteItems)
             }
             .navigationTitle("Exercices")
             .navigationBarItems(trailing: Button(action: {
@@ -43,16 +46,21 @@ struct ExerciseListView: View {
                     userRepository: CoreDataUserRepository(context: viewContext)
                 ),
                 onExerciseAdded: {
-                    viewModel.fetchExercises()
+                    viewModel.fetchExercises() 
                 }
             )
         }
     }
     
-    func iconForCategory(_ category: String) -> String {
-        guard let cat = ExerciseCategory(rawValue: category) else {
-            return "questionmark"
+    private func deleteItems(offsets: IndexSet) {
+        for index in offsets {
+            let exercise = viewModel.exercises[index]
+            viewModel.deleteExercise(by: exercise.id)
         }
+    }
+    
+    private func iconForCategory(_ category: String) -> String {
+        guard let cat = ExerciseCategory(rawValue: category) else { return "questionmark" }
         switch cat {
         case .football:
             return "sportscourt"

@@ -23,13 +23,6 @@
 		53E5876D2B236D9E00E4EF99 /* AddExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5876C2B236D9E00E4EF99 /* AddExerciseView.swift */; };
 		53E5876F2B236DBC00E4EF99 /* AddExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5876E2B236DBC00E4EF99 /* AddExerciseViewModel.swift */; };
 		53E587712B23714800E4EF99 /* SleepHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E587702B23714800E4EF99 /* SleepHistoryViewModel.swift */; };
-		F61D73802D932EDF00D70F99 /* Exercise+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D737B2D932EDF00D70F99 /* Exercise+CoreDataProperties.swift */; };
-		F61D73812D932EDF00D70F99 /* Exercise+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D737A2D932EDF00D70F99 /* Exercise+CoreDataClass.swift */; };
-		F61D73822D932EDF00D70F99 /* Sleep+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D737C2D932EDF00D70F99 /* Sleep+CoreDataClass.swift */; };
-		F61D73832D932EDF00D70F99 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D737E2D932EDF00D70F99 /* User+CoreDataClass.swift */; };
-		F61D73842D932EDF00D70F99 /* Sleep+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D737D2D932EDF00D70F99 /* Sleep+CoreDataProperties.swift */; };
-		F61D73852D932EDF00D70F99 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D737F2D932EDF00D70F99 /* User+CoreDataProperties.swift */; };
-		F61D73962D935CC600D70F99 /* ExerciseCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73952D935CC600D70F99 /* ExerciseCategory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,17 +62,11 @@
 		53E5876C2B236D9E00E4EF99 /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
 		53E5876E2B236DBC00E4EF99 /* AddExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseViewModel.swift; sourceTree = "<group>"; };
 		53E587702B23714800E4EF99 /* SleepHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepHistoryViewModel.swift; sourceTree = "<group>"; };
-		F61D737A2D932EDF00D70F99 /* Exercise+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Exercise+CoreDataClass.swift"; sourceTree = "<group>"; };
-		F61D737B2D932EDF00D70F99 /* Exercise+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Exercise+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		F61D737C2D932EDF00D70F99 /* Sleep+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sleep+CoreDataClass.swift"; sourceTree = "<group>"; };
-		F61D737D2D932EDF00D70F99 /* Sleep+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sleep+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		F61D737E2D932EDF00D70F99 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
-		F61D737F2D932EDF00D70F99 /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		F61D73952D935CC600D70F99 /* ExerciseCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F61D73882D9332E300D70F99 /* Repositories */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Repositories; sourceTree = "<group>"; };
+		F61D73972D93E90D00D70F99 /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,13 +97,6 @@
 		53E587242B235E8F00E4EF99 = {
 			isa = PBXGroup;
 			children = (
-				F61D737A2D932EDF00D70F99 /* Exercise+CoreDataClass.swift */,
-				F61D737B2D932EDF00D70F99 /* Exercise+CoreDataProperties.swift */,
-				F61D737C2D932EDF00D70F99 /* Sleep+CoreDataClass.swift */,
-				F61D737D2D932EDF00D70F99 /* Sleep+CoreDataProperties.swift */,
-				F61D737E2D932EDF00D70F99 /* User+CoreDataClass.swift */,
-				F61D737F2D932EDF00D70F99 /* User+CoreDataProperties.swift */,
-				F61D73952D935CC600D70F99 /* ExerciseCategory.swift */,
 				53E5872F2B235E8F00E4EF99 /* Arista */,
 				53E5873B2B235E9000E4EF99 /* Arista.xcdatamodeld */,
 				53E587452B235E9000E4EF99 /* AristaTests */,
@@ -138,6 +118,7 @@
 		53E5872F2B235E8F00E4EF99 /* Arista */ = {
 			isa = PBXGroup;
 			children = (
+				F61D73972D93E90D00D70F99 /* Models */,
 				53E587612B235FDC00E4EF99 /* ViewModels */,
 				53E587602B235FD700E4EF99 /* Views */,
 				53E587302B235E8F00E4EF99 /* AristaApp.swift */,
@@ -213,6 +194,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				F61D73882D9332E300D70F99 /* Repositories */,
+				F61D73972D93E90D00D70F99 /* Models */,
 			);
 			name = Arista;
 			productName = Arista;
@@ -333,15 +315,8 @@
 				53E587712B23714800E4EF99 /* SleepHistoryViewModel.swift in Sources */,
 				53E587632B235FF600E4EF99 /* UserDataView.swift in Sources */,
 				53E587672B23600C00E4EF99 /* SleepHistoryView.swift in Sources */,
-				F61D73962D935CC600D70F99 /* ExerciseCategory.swift in Sources */,
 				53E587312B235E8F00E4EF99 /* AristaApp.swift in Sources */,
 				53E587652B23600400E4EF99 /* ExerciseListView.swift in Sources */,
-				F61D73802D932EDF00D70F99 /* Exercise+CoreDataProperties.swift in Sources */,
-				F61D73812D932EDF00D70F99 /* Exercise+CoreDataClass.swift in Sources */,
-				F61D73822D932EDF00D70F99 /* Sleep+CoreDataClass.swift in Sources */,
-				F61D73832D932EDF00D70F99 /* User+CoreDataClass.swift in Sources */,
-				F61D73842D932EDF00D70F99 /* Sleep+CoreDataProperties.swift in Sources */,
-				F61D73852D932EDF00D70F99 /* User+CoreDataProperties.swift in Sources */,
 				53E5876B2B23648500E4EF99 /* ExerciseListViewModel.swift in Sources */,
 				53E5873D2B235E9000E4EF99 /* Arista.xcdatamodeld in Sources */,
 				53E5876D2B236D9E00E4EF99 /* AddExerciseView.swift in Sources */,
