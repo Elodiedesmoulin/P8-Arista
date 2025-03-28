@@ -17,11 +17,11 @@ struct ExerciseListView: View {
             List {
                 ForEach(viewModel.exercises) { exercise in
                     HStack {
-                        Image(systemName: iconForCategory(exercise.category))
+                        Image(systemName: iconForCategory(exercise.exerciseCategory))
                         VStack(alignment: .leading) {
                             Text(exercise.category)
                                 .font(.headline)
-                            Text("Durée: \(exercise.duration) min")
+                            Text("Duration: \(exercise.duration) min")
                                 .font(.subheadline)
                             Text(exercise.date.formatted())
                                 .font(.subheadline)
@@ -30,9 +30,14 @@ struct ExerciseListView: View {
                         IntensityIndicator(intensity: exercise.intensity)
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .onDelete { offsets in
+                    offsets.forEach { index in
+                        let exercise = viewModel.exercises[index]
+                        viewModel.deleteExercise(exercise)
+                    }
+                }
             }
-            .navigationTitle("Exercices")
+            .navigationTitle("Exercises")
             .navigationBarItems(trailing: Button(action: {
                 showingAddExerciseView = true
             }) {
@@ -42,26 +47,25 @@ struct ExerciseListView: View {
         .sheet(isPresented: $showingAddExerciseView) {
             AddExerciseView(
                 viewModel: AddExerciseViewModel(
-                    exerciseRepository: CoreDataExerciseRepository(context: viewContext),
-                    userRepository: CoreDataUserRepository(context: viewContext)
+                    exerciseRepository: ExerciseRepository(context: viewContext),
+                    userRepository: UserRepository(context: viewContext)
                 ),
                 onExerciseAdded: {
-                    viewModel.fetchExercises() 
+                    viewModel.fetchExercises()
                 }
+            )
+        }
+        .alert(item: $viewModel.error) { error in
+            Alert(
+                title: Text("Error"),
+                message: Text(error.errorDescription ?? "Unknown error"),
+                dismissButton: .default(Text("OK"))
             )
         }
     }
     
-    private func deleteItems(offsets: IndexSet) {
-        for index in offsets {
-            let exercise = viewModel.exercises[index]
-            viewModel.deleteExercise(by: exercise.id)
-        }
-    }
-    
-    private func iconForCategory(_ category: String) -> String {
-        guard let cat = ExerciseCategory(rawValue: category) else { return "questionmark" }
-        switch cat {
+    private func iconForCategory(_ category: ExerciseCategory) -> String {
+        switch category {
         case .football:
             return "sportscourt"
         case .natation:
@@ -77,7 +81,7 @@ struct ExerciseListView: View {
 }
 
 struct IntensityIndicator: View {
-    var intensity: Int
+    var intensity: Int16
     
     var body: some View {
         Circle()
@@ -85,7 +89,7 @@ struct IntensityIndicator: View {
             .frame(width: 10, height: 10)
     }
     
-    func colorForIntensity(_ intensity: Int) -> Color {
+    func colorForIntensity(_ intensity: Int16) -> Color {
         switch intensity {
         case 0...3:
             return .green
@@ -101,6 +105,5 @@ struct IntensityIndicator: View {
 
 //#Preview {
 //    let context = PersistenceController.preview.container.viewContext
-//    let exerciseRepo = CoreDataExerciseRepository(context: context)
-//    return ExerciseListView(viewModel: ExerciseListViewModel(exerciseRepository: exerciseRepo))
+//    return ExerciseListView(viewModel: ExerciseListViewModel(exerciseRepository: CoreDataExerciseRepository(context: context)))
 //}

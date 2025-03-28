@@ -10,7 +10,7 @@ import SwiftUI
 struct AddExerciseView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: AddExerciseViewModel
-    var onExerciseAdded: (() -> Void)? 
+    var onExerciseAdded: (() -> Void)?
 
     var body: some View {
         NavigationView {
@@ -39,18 +39,26 @@ struct AddExerciseView: View {
                 .buttonStyle(.borderedProminent)
             }
             .navigationTitle("New Exercise")
+            .alert(item: $viewModel.error) { error in
+                Alert(
+                    title: Text("Error"),
+                    message: Text(error.errorDescription ?? "Unknown error"),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
         }
     }
 }
 
-
 //#Preview {
 //    let context = PersistenceController.preview.container.viewContext
-//    return AddExerciseView(
+//     AddExerciseView(
 //        viewModel: AddExerciseViewModel(
 //            exerciseRepository: CoreDataExerciseRepository(context: context),
 //            userRepository: CoreDataUserRepository(context: context)
 //        ),
-//        onExerciseAdded: { }
+//        onExerciseAdded: {}
 //    )
 //}
+
+

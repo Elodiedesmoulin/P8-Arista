@@ -11,22 +11,31 @@ struct SleepHistoryView: View {
     @ObservedObject var viewModel: SleepHistoryViewModel
     
     var body: some View {
-        List(viewModel.sleepSessions) { session in
-            HStack {
-                QualityIndicator(quality: session.quality)
-                    .padding()
-                VStack(alignment: .leading) {
-                    Text("Début : \(session.startDate.formatted())")
-                    Text("Durée : \(session.duration/60) heures")
+        NavigationView {
+            List(viewModel.sleepSessions) { session in
+                HStack {
+                    QualityIndicator(quality: session.quality)
+                        .padding()
+                    VStack(alignment: .leading) {
+                        Text("Start: \(session.startDate.formatted())")
+                        Text("Duration: \(session.duration) min")
+                    }
                 }
             }
+            .navigationTitle("Sleep History")
         }
-        .navigationTitle("Historique de Sommeil")
+        .alert(item: $viewModel.error) { error in
+            Alert(
+                title: Text("Error"),
+                message: Text(error.errorDescription ?? "Unknown error"),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
 }
 
 struct QualityIndicator: View {
-    let quality: Int
+    let quality: Int16
     
     var body: some View {
         ZStack {
@@ -39,7 +48,7 @@ struct QualityIndicator: View {
         }
     }
     
-    func qualityColor(_ quality: Int) -> Color {
+    func qualityColor(_ quality: Int16) -> Color {
         switch (10 - quality) {
         case 0...3:
             return .green
@@ -55,6 +64,5 @@ struct QualityIndicator: View {
 
 //#Preview {
 //    let context = PersistenceController.preview.container.viewContext
-//    let sleepRepo = CoreDataSleepSessionRepository(context: context)
-//    SleepHistoryView(viewModel: SleepHistoryViewModel(sleepRepository: sleepRepo))
+//    return SleepHistoryView(viewModel: SleepHistoryViewModel(sleepRepository: CoreDataSleepRepository(context: context)))
 //}

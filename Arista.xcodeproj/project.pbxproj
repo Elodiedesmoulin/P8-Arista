@@ -23,6 +23,15 @@
 		53E5876D2B236D9E00E4EF99 /* AddExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5876C2B236D9E00E4EF99 /* AddExerciseView.swift */; };
 		53E5876F2B236DBC00E4EF99 /* AddExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5876E2B236DBC00E4EF99 /* AddExerciseViewModel.swift */; };
 		53E587712B23714800E4EF99 /* SleepHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E587702B23714800E4EF99 /* SleepHistoryViewModel.swift */; };
+		F61D73992D93F57000D70F99 /* UserRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73982D93F57000D70F99 /* UserRepositoryTests.swift */; };
+		F61D73CF2D96B34E00D70F99 /* CoreDataTestStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73CE2D96B34E00D70F99 /* CoreDataTestStack.swift */; };
+		F61D73D12D96B3AF00D70F99 /* SleepRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73D02D96B3AF00D70F99 /* SleepRepositoryTests.swift */; };
+		F61D73D32D96B43000D70F99 /* ExerciseRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73D22D96B43000D70F99 /* ExerciseRepositoryTests.swift */; };
+		F61D73D72D96DF1F00D70F99 /* UserDataViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73D62D96DF1F00D70F99 /* UserDataViewModelTests.swift */; };
+		F61D73D92D96DF9A00D70F99 /* MockFailingRepositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73D82D96DF9A00D70F99 /* MockFailingRepositories.swift */; };
+		F61D73DB2D96E05000D70F99 /* ExerciseListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73DA2D96E05000D70F99 /* ExerciseListViewModelTests.swift */; };
+		F61D73DD2D96E05900D70F99 /* AddExerciseViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73DC2D96E05900D70F99 /* AddExerciseViewModelTests.swift */; };
+		F61D73DF2D96E06500D70F99 /* SleepHistoryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73DE2D96E06500D70F99 /* SleepHistoryViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +71,15 @@
 		53E5876C2B236D9E00E4EF99 /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
 		53E5876E2B236DBC00E4EF99 /* AddExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseViewModel.swift; sourceTree = "<group>"; };
 		53E587702B23714800E4EF99 /* SleepHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepHistoryViewModel.swift; sourceTree = "<group>"; };
+		F61D73982D93F57000D70F99 /* UserRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryTests.swift; sourceTree = "<group>"; };
+		F61D73CE2D96B34E00D70F99 /* CoreDataTestStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTestStack.swift; sourceTree = "<group>"; };
+		F61D73D02D96B3AF00D70F99 /* SleepRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepRepositoryTests.swift; sourceTree = "<group>"; };
+		F61D73D22D96B43000D70F99 /* ExerciseRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseRepositoryTests.swift; sourceTree = "<group>"; };
+		F61D73D62D96DF1F00D70F99 /* UserDataViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataViewModelTests.swift; sourceTree = "<group>"; };
+		F61D73D82D96DF9A00D70F99 /* MockFailingRepositories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFailingRepositories.swift; sourceTree = "<group>"; };
+		F61D73DA2D96E05000D70F99 /* ExerciseListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseListViewModelTests.swift; sourceTree = "<group>"; };
+		F61D73DC2D96E05900D70F99 /* AddExerciseViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseViewModelTests.swift; sourceTree = "<group>"; };
+		F61D73DE2D96E06500D70F99 /* SleepHistoryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepHistoryViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -142,6 +160,15 @@
 			isa = PBXGroup;
 			children = (
 				53E587462B235E9000E4EF99 /* AristaTests.swift */,
+				F61D73D82D96DF9A00D70F99 /* MockFailingRepositories.swift */,
+				F61D73D62D96DF1F00D70F99 /* UserDataViewModelTests.swift */,
+				F61D73DA2D96E05000D70F99 /* ExerciseListViewModelTests.swift */,
+				F61D73DC2D96E05900D70F99 /* AddExerciseViewModelTests.swift */,
+				F61D73DE2D96E06500D70F99 /* SleepHistoryViewModelTests.swift */,
+				F61D73CE2D96B34E00D70F99 /* CoreDataTestStack.swift */,
+				F61D73982D93F57000D70F99 /* UserRepositoryTests.swift */,
+				F61D73D22D96B43000D70F99 /* ExerciseRepositoryTests.swift */,
+				F61D73D02D96B3AF00D70F99 /* SleepRepositoryTests.swift */,
 			);
 			path = AristaTests;
 			sourceTree = "<group>";
@@ -329,7 +356,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F61D73D92D96DF9A00D70F99 /* MockFailingRepositories.swift in Sources */,
+				F61D73DD2D96E05900D70F99 /* AddExerciseViewModelTests.swift in Sources */,
 				53E587472B235E9000E4EF99 /* AristaTests.swift in Sources */,
+				F61D73D12D96B3AF00D70F99 /* SleepRepositoryTests.swift in Sources */,
+				F61D73DF2D96E06500D70F99 /* SleepHistoryViewModelTests.swift in Sources */,
+				F61D73D32D96B43000D70F99 /* ExerciseRepositoryTests.swift in Sources */,
+				F61D73DB2D96E05000D70F99 /* ExerciseListViewModelTests.swift in Sources */,
+				F61D73CF2D96B34E00D70F99 /* CoreDataTestStack.swift in Sources */,
+				F61D73992D93F57000D70F99 /* UserRepositoryTests.swift in Sources */,
+				F61D73D72D96DF1F00D70F99 /* UserDataViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

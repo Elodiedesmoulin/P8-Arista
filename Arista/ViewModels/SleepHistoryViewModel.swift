@@ -7,15 +7,9 @@
 
 import Foundation
 
-struct SleepDisplay: Identifiable {
-    let id: UUID
-    let startDate: Date
-    let duration: Int
-    let quality: Int
-}
-
 class SleepHistoryViewModel: ObservableObject {
-    @Published var sleepSessions: [SleepDisplay] = []
+    @Published var sleepSessions: [Sleep] = []
+    @Published var error: AppError? = nil
 
     private let sleepRepository: SleepRepository
 
@@ -26,17 +20,9 @@ class SleepHistoryViewModel: ObservableObject {
 
     func fetchSleepData() {
         do {
-            let sessions = try sleepRepository.fetchAllSleepSessions()
-            sleepSessions = sessions.map {
-                SleepDisplay(
-                    id: $0.id ?? UUID(),
-                    startDate: $0.startDate ?? Date(),
-                    duration: Int($0.duration),
-                    quality: Int($0.quality)
-                )
-            }
+            sleepSessions = try sleepRepository.fetchAllSleepSessions()
         } catch {
-            print("Error fetching sleep sessions: \(error)")
+            self.error = .repositoryError(error.localizedDescription)
         }
     }
 }

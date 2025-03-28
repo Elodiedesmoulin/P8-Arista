@@ -7,16 +7,9 @@
 
 import Foundation
 
-struct ExerciseDisplay: Identifiable {
-    let id: UUID
-    let category: String
-    let date: Date
-    let duration: Int
-    let intensity: Int
-}
-
 class ExerciseListViewModel: ObservableObject {
-    @Published var exercises: [ExerciseDisplay] = []
+    @Published var exercises: [Exercise] = []
+    @Published var error: AppError? = nil
 
     private let exerciseRepository: ExerciseRepository
 
@@ -27,31 +20,19 @@ class ExerciseListViewModel: ObservableObject {
 
     func fetchExercises() {
         do {
-            let list = try exerciseRepository.fetchAllExercises()
-            exercises = list.map {
-                ExerciseDisplay(
-                    id: $0.id ?? UUID(),
-                    category: $0.exerciseCategory.rawValue, 
-                    date: $0.date ?? Date(),
-                    duration: Int($0.duration),
-                    intensity: Int($0.intensity)
-                )
-            }
+            exercises = try exerciseRepository.fetchAllExercises()
         } catch {
-            print("Error fetching exercises: \(error)")
+            self.error = .repositoryError(error.localizedDescription)
             exercises = []
         }
     }
 
-    func deleteExercise(by id: UUID) {
+    func deleteExercise(_ exercise: Exercise) {
         do {
-            let list = try exerciseRepository.fetchAllExercises()
-            if let exercise = list.first(where: { $0.id == id }) {
-                try exerciseRepository.deleteExercise(exercise)
-                fetchExercises()
-            }
+            try exerciseRepository.deleteExercise(exercise)
+            fetchExercises()
         } catch {
-            print("Error deleting exercise: \(error)")
+            self.error = .repositoryError(error.localizedDescription)
         }
     }
 }

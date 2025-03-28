@@ -12,6 +12,7 @@ class UserDataViewModel: ObservableObject {
     @Published var lastName: String = ""
     @Published var email: String = ""
     @Published var password: String = ""
+    @Published var error: AppError? = nil
 
     private let userRepository: UserRepository
 
@@ -23,13 +24,14 @@ class UserDataViewModel: ObservableObject {
     private func fetchUser() {
         do {
             if let user = try userRepository.fetchSingleUser() {
-                firstName = user.firstName ?? ""
-                lastName = user.lastName ?? ""
-                email = user.email ?? ""
-                password = user.password ?? ""
+                firstName = user.firstName
+                lastName = user.lastName
+                email = user.email
+                password = user.password
             }
         } catch {
-            print("Error fetching single user: \(error)")
+            self.error = .repositoryError(error.localizedDescription)
         }
     }
 }
+

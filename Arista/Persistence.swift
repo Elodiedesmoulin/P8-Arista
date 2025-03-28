@@ -33,8 +33,8 @@ struct PersistenceController {
     
     private func seedDefaultData() {
         let context = container.viewContext
-        let userRepo = CoreDataUserRepository(context: context)
-        let sleepRepo = CoreDataSleepRepository(context: context)
+        let userRepo = UserRepository(context: context)
+        let sleepRepo = SleepRepository(context: context)
         
         do {
             let user = try userRepo.createDefaultUserIfNeeded()

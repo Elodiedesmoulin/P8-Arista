@@ -11,32 +11,19 @@ import SwiftUI
 struct AristaApp: App {
     let persistenceController = PersistenceController.shared
     
-    var userRepository: UserRepository {
-        CoreDataUserRepository(context: persistenceController.container.viewContext)
-    }
-    
-    var exerciseRepository: ExerciseRepository {
-        CoreDataExerciseRepository(context: persistenceController.container.viewContext)
-    }
-    
-    var sleepRepository: SleepRepository {
-        CoreDataSleepRepository(context: persistenceController.container.viewContext)
-    }
-    
     var body: some Scene {
         WindowGroup {
             TabView {
-                UserDataView(viewModel: UserDataViewModel(userRepository: userRepository))
+                UserDataView(viewModel: UserDataViewModel(userRepository: UserRepository(context: persistenceController.container.viewContext)))
                     .tabItem {
                         Label("User", systemImage: "person")
                     }
-                ExerciseListView(viewModel: ExerciseListViewModel(exerciseRepository: exerciseRepository))
+                ExerciseListView(viewModel: ExerciseListViewModel(exerciseRepository: ExerciseRepository(context: persistenceController.container.viewContext)))
                     .environment(\.managedObjectContext, persistenceController.container.viewContext)
                     .tabItem {
                         Label("Exercises", systemImage: "flame")
                     }
-                // Sleep History Screen
-                SleepHistoryView(viewModel: SleepHistoryViewModel(sleepRepository: sleepRepository))
+                SleepHistoryView(viewModel: SleepHistoryViewModel(sleepRepository: SleepRepository(context: persistenceController.container.viewContext)))
                     .tabItem {
                         Label("Sleep", systemImage: "moon.zzz")
                     }
