@@ -37,8 +37,10 @@ class FailingSleepRepository: SleepRepository {
     override func fetchAllSleepSessions() throws -> [Sleep] {
         throw AppError.repositoryError("FailingSleepRepository error")
     }
-    
-    override func createDefaultSleepData(for user: User) throws {
+    override func createSleepSession(startDate: Date, duration: Int16, quality: Int16, user: User) throws -> Sleep {
+        throw AppError.repositoryError("FailingSleepRepository error")
+    }
+    override func deleteSleepSession(_ sleep: Sleep) throws {
         throw AppError.repositoryError("FailingSleepRepository error")
     }
 }

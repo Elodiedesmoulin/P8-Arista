@@ -27,18 +27,17 @@ struct PersistenceController {
         
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.viewContext.automaticallyMergesChangesFromParent = true
-        
-        seedDefaultData()
+        if !inMemory {
+            seedDefaultData()
+        }
     }
     
     private func seedDefaultData() {
         let context = container.viewContext
         let userRepo = UserRepository(context: context)
-        let sleepRepo = SleepRepository(context: context)
         
         do {
-            let user = try userRepo.createDefaultUserIfNeeded()
-            try sleepRepo.createDefaultSleepData(for: user)
+            _ = try userRepo.createDefaultUserIfNeeded()
         } catch {
             print("Seeding error: \(error)")
         }

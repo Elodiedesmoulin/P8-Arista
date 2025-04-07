@@ -15,7 +15,7 @@ class UserDataViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        persistentContainer = CoreDataTestStack.inMemoryPersistentContainer()
+        persistentContainer = PersistenceController(inMemory: true).container
     }
     
     override func tearDown() {
@@ -25,7 +25,6 @@ class UserDataViewModelTests: XCTestCase {
     
     func testFetchUserSuccess() throws {
         let context = persistentContainer.viewContext
-        // Crée un utilisateur dans le contexte
         let user = User(context: context)
         user.firstName = "Alice"
         user.lastName = "Wonderland"

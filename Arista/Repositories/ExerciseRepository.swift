@@ -15,7 +15,8 @@ class ExerciseRepository {
         self.context = context
     }
 
-    func fetchAllExercises() throws -> [Exercise] {
+    func
+    fetchAllExercises() throws -> [Exercise] {
         let request: NSFetchRequest<Exercise> = Exercise.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         return try context.fetch(request)

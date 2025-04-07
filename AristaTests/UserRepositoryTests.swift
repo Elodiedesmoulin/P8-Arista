@@ -11,18 +11,16 @@ import CoreData
 
 class UserRepositoryTests: XCTestCase {
     
-    var persistentContainer: NSPersistentContainer!
     var userRepo: UserRepository!
     
     override func setUp() {
         super.setUp()
-        persistentContainer = CoreDataTestStack.inMemoryPersistentContainer()
+        let persistentContainer = PersistenceController(inMemory: true).container
         userRepo = UserRepository(context: persistentContainer.viewContext)
     }
     
     override func tearDown() {
         userRepo = nil
-        persistentContainer = nil
         super.tearDown()
     }
     

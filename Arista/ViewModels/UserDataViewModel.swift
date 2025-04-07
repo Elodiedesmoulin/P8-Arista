@@ -13,14 +13,14 @@ class UserDataViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var error: AppError? = nil
-
+    
     private let userRepository: UserRepository
-
+    
     init(userRepository: UserRepository) {
         self.userRepository = userRepository
         fetchUser()
     }
-
+    
     private func fetchUser() {
         do {
             if let user = try userRepository.fetchSingleUser() {

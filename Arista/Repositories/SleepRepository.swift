@@ -20,24 +20,20 @@ class SleepRepository {
         request.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: false)]
         return try context.fetch(request)
     }
-
-    func createDefaultSleepData(for user: User) throws {
-        let existing = try fetchAllSleepSessions()
-        if existing.isEmpty {
-            let samples: [(Date, Int16, Int16)] = [
-                (Date().addingTimeInterval(-86400 * 1), 7 * 60, 8),
-                (Date().addingTimeInterval(-86400 * 2), 6 * 60, 5),
-                (Date().addingTimeInterval(-86400 * 3), 8 * 60, 9)
-            ]
-            for (start, duration, quality) in samples {
-                let session = Sleep(context: context)
-                session.id = UUID()
-                session.startDate = start
-                session.duration = duration * 60
-                session.quality = quality
-                session.user = user
-            }
-            try context.save()
-        }
+    
+    func createSleepSession(startDate: Date, duration: Int16, quality: Int16, user: User) throws -> Sleep {
+        let newSleep = Sleep(context: context)
+        newSleep.id = UUID()
+        newSleep.startDate = startDate
+        newSleep.duration = duration
+        newSleep.quality = quality
+        newSleep.user = user
+        try context.save()
+        return newSleep
+    }
+    
+    func deleteSleepSession(_ sleep: Sleep) throws {
+        context.delete(sleep)
+        try context.save()
     }
 }

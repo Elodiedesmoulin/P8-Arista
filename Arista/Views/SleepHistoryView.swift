@@ -9,20 +9,41 @@ import SwiftUI
 
 struct SleepHistoryView: View {
     @ObservedObject var viewModel: SleepHistoryViewModel
-    
+    @State private var showingAddSleepView = false
+    @Environment(\.managedObjectContext) private var viewContext
+
     var body: some View {
         NavigationView {
-            List(viewModel.sleepSessions) { session in
-                HStack {
-                    QualityIndicator(quality: session.quality)
-                        .padding()
-                    VStack(alignment: .leading) {
-                        Text("Start: \(session.startDate.formatted())")
-                        Text("Duration: \(session.duration) min")
+            List {
+                ForEach(viewModel.sleepSessions) { session in
+                    HStack {
+                        QualityIndicator(quality: session.quality)
+                            .padding()
+                        VStack(alignment: .leading) {
+                            Text("Start: \(session.startDate.formatted())")
+                            Text("Duration: \(session.duration) min")
+                        }
                     }
                 }
+                .onDelete(perform: deleteSleep)
             }
             .navigationTitle("Sleep History")
+            .navigationBarItems(trailing: Button(action: {
+                showingAddSleepView = true
+            }) {
+                Image(systemName: "plus")
+            })
+        }
+        .sheet(isPresented: $showingAddSleepView) {
+            AddSleepSessionView(
+                viewModel: AddSleepSessionViewModel(
+                    sleepRepository: SleepRepository(context: viewContext),
+                    userRepository: UserRepository(context: viewContext)
+                ),
+                onSleepAdded: {
+                    viewModel.fetchSleepData()
+                }
+            )
         }
         .alert(item: $viewModel.error) { error in
             Alert(
@@ -30,6 +51,18 @@ struct SleepHistoryView: View {
                 message: Text(error.errorDescription ?? "Unknown error"),
                 dismissButton: .default(Text("OK"))
             )
+        }
+    }
+
+    private func deleteSleep(at offsets: IndexSet) {
+        offsets.forEach { index in
+            let session = viewModel.sleepSessions[index]
+            do {
+                try SleepRepository(context: viewContext).deleteSleepSession(session)
+                viewModel.fetchSleepData()
+            } catch {
+                viewModel.error = .repositoryError(error.localizedDescription)
+            }
         }
     }
 }

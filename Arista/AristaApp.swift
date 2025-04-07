@@ -24,6 +24,7 @@ struct AristaApp: App {
                         Label("Exercises", systemImage: "flame")
                     }
                 SleepHistoryView(viewModel: SleepHistoryViewModel(sleepRepository: SleepRepository(context: persistenceController.container.viewContext)))
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext) 
                     .tabItem {
                         Label("Sleep", systemImage: "moon.zzz")
                     }

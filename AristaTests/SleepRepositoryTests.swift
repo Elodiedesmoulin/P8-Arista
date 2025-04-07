@@ -15,10 +15,11 @@ class SleepRepositoryTests: XCTestCase {
     var persistentContainer: NSPersistentContainer!
     var sleepRepo: SleepRepository!
     var userRepo: UserRepository!
+    let date = Date()
     
     override func setUp() {
         super.setUp()
-        persistentContainer = CoreDataTestStack.inMemoryPersistentContainer()
+        persistentContainer = PersistenceController(inMemory: true).container
         sleepRepo = SleepRepository(context: persistentContainer.viewContext)
         userRepo = UserRepository(context: persistentContainer.viewContext)
     }
@@ -30,32 +31,39 @@ class SleepRepositoryTests: XCTestCase {
         super.tearDown()
     }
     
-    func testCreateDefaultSleepDataCreatesThreeSessions() throws {
-        let user = try userRepo.createDefaultUserIfNeeded()
-        // Assure-toi qu'il n'y a pas encore de sessions
-        var sessions = try sleepRepo.fetchAllSleepSessions()
-        XCTAssertEqual(sessions.count, 0)
-        
-        try sleepRepo.createDefaultSleepData(for: user)
-        sessions = try sleepRepo.fetchAllSleepSessions()
-        XCTAssertEqual(sessions.count, 3)
-    }
-    
     func testFetchAllSleepSessionsSortedByDateDescending() throws {
         let user = try userRepo.createDefaultUserIfNeeded()
-        try sleepRepo.createDefaultSleepData(for: user)
-        let sessions = try sleepRepo.fetchAllSleepSessions()
-        // Vérifie que la session avec la date la plus récente est en premier
-        XCTAssertGreaterThan(sessions.first?.startDate ?? Date.distantPast, sessions.last?.startDate ?? Date.distantPast)
+        let sleepCurrentDate = try sleepRepo.createSleepSession(startDate: date,
+                                                                duration: 450,
+                                                                quality: 9,
+                                                                user: user)
+        let sleepPreviousDate = try sleepRepo.createSleepSession(startDate: date.addingTimeInterval(-3600),
+                                                                 duration: 450,
+                                                                 quality: 9,
+                                                                 user: user)
+        let sleepNextDate = try sleepRepo.createSleepSession(startDate: date.addingTimeInterval(3600),
+                                                             duration: 450,
+                                                             quality: 9,
+                                                             user: user)
+        
+        let sleepSessions = try sleepRepo.fetchAllSleepSessions()
+        XCTAssertEqual(sleepSessions.count, 3)
+        XCTAssertEqual(sleepSessions[0].id, sleepNextDate.id)
+        XCTAssertEqual(sleepSessions[1].id, sleepCurrentDate.id)
+        XCTAssertEqual(sleepSessions[2].id, sleepPreviousDate.id)
     }
     
-    func testCreateDefaultSleepDataDoesNotDuplicate() throws {
+    func testDeleteSleepSessionRemovesSession() throws {
         let user = try userRepo.createDefaultUserIfNeeded()
-        try sleepRepo.createDefaultSleepData(for: user)
-        let sessionsFirst = try sleepRepo.fetchAllSleepSessions()
-        // Appeler à nouveau la création ne doit pas ajouter de nouvelles sessions
-        try sleepRepo.createDefaultSleepData(for: user)
-        let sessionsSecond = try sleepRepo.fetchAllSleepSessions()
-        XCTAssertEqual(sessionsFirst.count, sessionsSecond.count)
+        let newSleep = try sleepRepo.createSleepSession(startDate: date,
+                                                        duration: 450,
+                                                        quality: 9,
+                                                        user: user)
+        var fetchedSessions = try sleepRepo.fetchAllSleepSessions()
+        XCTAssertEqual(fetchedSessions.count, 1)
+        
+        try sleepRepo.deleteSleepSession(newSleep)
+        fetchedSessions = try sleepRepo.fetchAllSleepSessions()
+        XCTAssertEqual(fetchedSessions.count, 0)
     }
 }

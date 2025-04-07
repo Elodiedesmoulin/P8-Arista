@@ -19,7 +19,7 @@ class ExerciseRepositoryTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        persistentContainer = CoreDataTestStack.inMemoryPersistentContainer()
+        persistentContainer = PersistenceController(inMemory: true).container
         exerciseRepo = ExerciseRepository(context: persistentContainer.viewContext)
         userRepo = UserRepository(context: persistentContainer.viewContext)
     }
@@ -39,14 +39,15 @@ class ExerciseRepositoryTests: XCTestCase {
                                                         duration: 60,
                                                         intensity: 5,
                                                         user: user)
-        XCTAssertNotNil(exercise)
-        XCTAssertEqual(exercise.exerciseCategory, .running)
-        XCTAssertEqual(exercise.duration, 60)
-        XCTAssertEqual(exercise.intensity, 5)
-        XCTAssertEqual(exercise.user, user)
         
-        let exercises = try exerciseRepo.fetchAllExercises()
-        XCTAssertTrue(exercises.contains(where: { $0.id == exercise.id }))
+        let fetchedExercise = try exerciseRepo.fetchAllExercises().first
+
+        XCTAssertNotNil(fetchedExercise)
+        XCTAssertEqual(fetchedExercise?.exerciseCategory, .running)
+        XCTAssertEqual(fetchedExercise?.duration, 60)
+        XCTAssertEqual(fetchedExercise?.intensity, 5)
+        XCTAssertEqual(fetchedExercise?.user, user)
+        XCTAssertEqual(fetchedExercise?.id, exercise.id)
     }
     
     func testDeleteExercise() throws {
@@ -56,33 +57,36 @@ class ExerciseRepositoryTests: XCTestCase {
                                                         duration: 60,
                                                         intensity: 5,
                                                         user: user)
-        var exercises = try exerciseRepo.fetchAllExercises()
-        XCTAssertTrue(exercises.contains(where: { $0.id == exercise.id }))
-        
+        let fetchedExercise = try exerciseRepo.fetchAllExercises().first
+        XCTAssertEqual(fetchedExercise?.id, exercise.id)
+
         try exerciseRepo.deleteExercise(exercise)
-        exercises = try exerciseRepo.fetchAllExercises()
-        XCTAssertFalse(exercises.contains(where: { $0.id == exercise.id }))
+        let fetchedExercises = try exerciseRepo.fetchAllExercises()
+        XCTAssertTrue(fetchedExercises.isEmpty)
     }
     
     func testExercisesAreSortedByDateDescending() throws {
         let user = try userRepo.createDefaultUserIfNeeded()
-        _ = try exerciseRepo.createExercise(category: .running,
+        let exerciseCurrentDate = try exerciseRepo.createExercise(category: .running,
                                             date: date,
                                             duration: 30,
                                             intensity: 5,
                                             user: user)
-        _ = try exerciseRepo.createExercise(category: .football,
+        let exercisePreviousDate = try exerciseRepo.createExercise(category: .football,
                                             date: date.addingTimeInterval(-3600),
                                             duration: 45,
                                             intensity: 7,
                                             user: user)
-        _ = try exerciseRepo.createExercise(category: .cyclisme,
+        let exerciseNextDate = try exerciseRepo.createExercise(category: .cyclisme,
                                             date: date.addingTimeInterval(3600),
                                             duration: 50,
                                             intensity: 6,
                                             user: user)
         
         let exercises = try exerciseRepo.fetchAllExercises()
-        XCTAssertGreaterThan(exercises.first?.date ?? Date.distantPast, exercises.last?.date ?? Date.distantPast)
+        XCTAssertEqual(exercises.count, 3)
+        XCTAssertEqual(exercises[0].id, exerciseNextDate.id)
+        XCTAssertEqual(exercises[1].id, exerciseCurrentDate.id)
+        XCTAssertEqual(exercises[2].id, exercisePreviousDate.id)
     }
 }

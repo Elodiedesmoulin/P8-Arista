@@ -16,7 +16,7 @@ class AddExerciseViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        persistentContainer = CoreDataTestStack.inMemoryPersistentContainer()
+        persistentContainer = PersistenceController(inMemory: true).container
     }
     
     override func tearDown() {
@@ -113,10 +113,8 @@ class AddExerciseViewModelTests: XCTestCase {
     
     func testAddExerciseRepositoryError() throws {
         let context = persistentContainer.viewContext
-        // Crée un utilisateur normalement
         let userRepo = UserRepository(context: context)
         _ = try userRepo.createDefaultUserIfNeeded()
-        // Utilise un repository exercise défaillant
         let failingExerciseRepo = FailingExerciseRepository(context: persistentContainer.viewContext)
         let viewModel = AddExerciseViewModel(exerciseRepository: failingExerciseRepo, userRepository: userRepo)
         

@@ -7,10 +7,9 @@
 
 import Foundation
 
-import Foundation
-
 enum AppError: Error, LocalizedError, Equatable, Identifiable {
     case invalidDuration
+    case invalidQuality
     case invalidIntensity
     case invalidStartTime
     case userNotFound
@@ -22,6 +21,8 @@ enum AppError: Error, LocalizedError, Equatable, Identifiable {
         switch self {
         case .invalidDuration:
             return "Invalid duration value."
+        case .invalidQuality:
+            return "Invalid quality value."
         case .invalidIntensity:
             return "Invalid intensity value."
         case .invalidStartTime:

@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension Exercise {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Exercise> {

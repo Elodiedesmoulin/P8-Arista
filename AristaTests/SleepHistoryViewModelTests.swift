@@ -16,7 +16,7 @@ class SleepHistoryViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        persistentContainer = CoreDataTestStack.inMemoryPersistentContainer()
+        persistentContainer = PersistenceController(inMemory: true).container
     }
     
     override func tearDown() {
