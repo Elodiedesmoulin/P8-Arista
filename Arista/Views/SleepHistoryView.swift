@@ -36,7 +36,7 @@ struct SleepHistoryView: View {
         }
         .sheet(isPresented: $showingAddSleepView) {
             AddSleepSessionView(
-                viewModel: AddSleepSessionViewModel(
+                viewModel: AddSleepViewModel(
                     sleepRepository: SleepRepository(context: viewContext),
                     userRepository: UserRepository(context: viewContext)
                 ),

@@ -23,7 +23,7 @@
 		53E5876D2B236D9E00E4EF99 /* AddExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5876C2B236D9E00E4EF99 /* AddExerciseView.swift */; };
 		53E5876F2B236DBC00E4EF99 /* AddExerciseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5876E2B236DBC00E4EF99 /* AddExerciseViewModel.swift */; };
 		53E587712B23714800E4EF99 /* SleepHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E587702B23714800E4EF99 /* SleepHistoryViewModel.swift */; };
-		F61D73E12D9AED5D00D70F99 /* AddSleepSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73E02D9AED5D00D70F99 /* AddSleepSessionViewModel.swift */; };
+		F61D73E12D9AED5D00D70F99 /* AddSleepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73E02D9AED5D00D70F99 /* AddSleepViewModel.swift */; };
 		F61D73E32D9AED7200D70F99 /* AddSleepSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61D73E22D9AED7200D70F99 /* AddSleepSessionView.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,7 +64,7 @@
 		53E5876C2B236D9E00E4EF99 /* AddExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseView.swift; sourceTree = "<group>"; };
 		53E5876E2B236DBC00E4EF99 /* AddExerciseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExerciseViewModel.swift; sourceTree = "<group>"; };
 		53E587702B23714800E4EF99 /* SleepHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepHistoryViewModel.swift; sourceTree = "<group>"; };
-		F61D73E02D9AED5D00D70F99 /* AddSleepSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSleepSessionViewModel.swift; sourceTree = "<group>"; };
+		F61D73E02D9AED5D00D70F99 /* AddSleepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSleepViewModel.swift; sourceTree = "<group>"; };
 		F61D73E22D9AED7200D70F99 /* AddSleepSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSleepSessionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,7 +182,7 @@
 			children = (
 				53E587682B23616A00E4EF99 /* UserDataViewModel.swift */,
 				53E5876A2B23648500E4EF99 /* ExerciseListViewModel.swift */,
-				F61D73E02D9AED5D00D70F99 /* AddSleepSessionViewModel.swift */,
+				F61D73E02D9AED5D00D70F99 /* AddSleepViewModel.swift */,
 				53E5876E2B236DBC00E4EF99 /* AddExerciseViewModel.swift */,
 				53E587702B23714800E4EF99 /* SleepHistoryViewModel.swift */,
 			);
@@ -337,7 +337,7 @@
 				53E5876B2B23648500E4EF99 /* ExerciseListViewModel.swift in Sources */,
 				53E5873D2B235E9000E4EF99 /* Arista.xcdatamodeld in Sources */,
 				53E5876D2B236D9E00E4EF99 /* AddExerciseView.swift in Sources */,
-				F61D73E12D9AED5D00D70F99 /* AddSleepSessionViewModel.swift in Sources */,
+				F61D73E12D9AED5D00D70F99 /* AddSleepViewModel.swift in Sources */,
 				F61D73E32D9AED7200D70F99 /* AddSleepSessionView.swift in Sources */,
 				53E5876F2B236DBC00E4EF99 /* AddExerciseViewModel.swift in Sources */,
 				53E587692B23616A00E4EF99 /* UserDataViewModel.swift in Sources */,

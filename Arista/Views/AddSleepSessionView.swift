@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AddSleepSessionView: View {
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel: AddSleepSessionViewModel
+    @ObservedObject var viewModel: AddSleepViewModel
     var onSleepAdded: (() -> Void)?
 
     var body: some View {

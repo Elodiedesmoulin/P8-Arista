@@ -19,7 +19,7 @@ class ExerciseListViewModelTests: CoreDataTestCase {
         super.setUp()
         userRepository = UserRepository(context: viewContext)
         do {
-            defaultUser = try userRepository.createDefaultUserIfNeeded()
+            defaultUser = try userRepository.ensureDefaultUserExists()
         } catch {
             XCTFail("Error during default user creation: \(error)")
         }

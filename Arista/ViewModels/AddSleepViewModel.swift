@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AddSleepSessionViewModel: ObservableObject {
+class AddSleepViewModel: ObservableObject {
     @Published var startTime: String = ""
     @Published var duration: String = ""
     @Published var quality: String = ""

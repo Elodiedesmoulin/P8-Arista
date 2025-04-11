@@ -22,7 +22,7 @@ class AddSleepViewModelTests: CoreDataTestCase {
     }
     
     func testAddSleepInvalidDuration() {
-        let viewModel = AddSleepSessionViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
+        let viewModel = AddSleepViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
         viewModel.duration = "invalid"
         viewModel.quality = "5"
         viewModel.startTime = "01/01/2025 10:00"
@@ -33,7 +33,7 @@ class AddSleepViewModelTests: CoreDataTestCase {
     }
     
     func testAddSleepInvalidQuality() {
-        let viewModel = AddSleepSessionViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
+        let viewModel = AddSleepViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
         viewModel.duration = "450"
         viewModel.quality = "invalid"
         viewModel.startTime = "01/01/2025 10:00"
@@ -44,7 +44,7 @@ class AddSleepViewModelTests: CoreDataTestCase {
     }
     
     func testAddSleepInvalidStartTime() {
-        let viewModel = AddSleepSessionViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
+        let viewModel = AddSleepViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
         viewModel.duration = "450"
         viewModel.quality = "8"
         viewModel.startTime = "invalid date"
@@ -55,9 +55,9 @@ class AddSleepViewModelTests: CoreDataTestCase {
     }
     
     func testAddSleepSuccess() throws {
-        _ = try userRepo.createDefaultUserIfNeeded()
+        _ = try userRepo.ensureDefaultUserExists()
         
-        let viewModel = AddSleepSessionViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
+        let viewModel = AddSleepViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
         viewModel.duration = "450"
         viewModel.quality = "8"
         viewModel.startTime = "01/01/2025 10:00"
@@ -73,7 +73,7 @@ class AddSleepViewModelTests: CoreDataTestCase {
     }
     
     func testAddSleepUserNotFound() {
-        let viewModel = AddSleepSessionViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
+        let viewModel = AddSleepViewModel(sleepRepository: sleepRepo, userRepository: userRepo)
         viewModel.duration = "450"
         viewModel.quality = "8"
         viewModel.startTime = "01/01/2025 10:00"
@@ -84,9 +84,9 @@ class AddSleepViewModelTests: CoreDataTestCase {
     }
     
     func testAddSleepRepositoryError() throws {
-        _ = try userRepo.createDefaultUserIfNeeded()
+        _ = try userRepo.ensureDefaultUserExists()
         let failingSleepRepo = FailingSleepRepository(context: viewContext)
-        let viewModel = AddSleepSessionViewModel(sleepRepository: failingSleepRepo, userRepository: userRepo)
+        let viewModel = AddSleepViewModel(sleepRepository: failingSleepRepo, userRepository: userRepo)
         
         viewModel.duration = "50"
         viewModel.quality = "7"

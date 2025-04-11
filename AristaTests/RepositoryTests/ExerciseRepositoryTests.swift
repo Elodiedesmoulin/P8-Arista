@@ -32,7 +32,7 @@ class ExerciseRepositoryTests: XCTestCase {
     }
     
     func testAddExercise_SavesCorrectAttributes() throws {
-        let user = try userRepo.createDefaultUserIfNeeded()
+        let user = try userRepo.ensureDefaultUserExists()
         
         let exercise = try exerciseRepo.createExercise(category: .running,
                                                         date: date,
@@ -51,7 +51,7 @@ class ExerciseRepositoryTests: XCTestCase {
     }
     
     func testDeleteExercise() throws {
-        let user = try userRepo.createDefaultUserIfNeeded()
+        let user = try userRepo.ensureDefaultUserExists()
         let exercise = try exerciseRepo.createExercise(category: .running,
                                                         date: date,
                                                         duration: 60,
@@ -66,7 +66,7 @@ class ExerciseRepositoryTests: XCTestCase {
     }
     
     func testExercisesAreSortedByDateDescending() throws {
-        let user = try userRepo.createDefaultUserIfNeeded()
+        let user = try userRepo.ensureDefaultUserExists()
         let exerciseCurrentDate = try exerciseRepo.createExercise(category: .running,
                                             date: date,
                                             duration: 30,

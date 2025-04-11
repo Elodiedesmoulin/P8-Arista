@@ -15,7 +15,7 @@ class AddExerciseViewModelTests: CoreDataTestCase {
     func testAddExerciseSuccess() throws {
         let context = viewContext
         let userRepo = UserRepository(context: context)
-        _ = try userRepo.createDefaultUserIfNeeded()
+        _ = try userRepo.ensureDefaultUserExists()
         
         let exerciseRepo = ExerciseRepository(context: context)
         let viewModel = AddExerciseViewModel(exerciseRepository: exerciseRepo, userRepository: userRepo)
@@ -98,7 +98,7 @@ class AddExerciseViewModelTests: CoreDataTestCase {
     func testAddExerciseRepositoryError() throws {
         let context = viewContext
         let userRepo = UserRepository(context: context)
-        _ = try userRepo.createDefaultUserIfNeeded()
+        _ = try userRepo.ensureDefaultUserExists()
         let failingExerciseRepo = FailingExerciseRepository(context: context)
         let viewModel = AddExerciseViewModel(exerciseRepository: failingExerciseRepo, userRepository: userRepo)
         

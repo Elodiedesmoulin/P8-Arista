@@ -37,7 +37,7 @@ struct PersistenceController {
         let userRepo = UserRepository(context: context)
         
         do {
-            _ = try userRepo.createDefaultUserIfNeeded()
+            _ = try userRepo.ensureDefaultUserExists()
         } catch {
             print("Seeding error: \(error)")
         }

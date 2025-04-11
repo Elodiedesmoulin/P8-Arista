@@ -25,7 +25,7 @@ class UserRepositoryTests: XCTestCase {
     }
     
     func testCreateDefaultUserIfNeededCreatesUser() throws {
-        let user = try userRepo.createDefaultUserIfNeeded()
+        let user = try userRepo.ensureDefaultUserExists()
         XCTAssertNotNil(user)
         XCTAssertEqual(user.firstName, "John")
         XCTAssertEqual(user.lastName, "Smith")
@@ -34,7 +34,7 @@ class UserRepositoryTests: XCTestCase {
     }
     
     func testFetchSingleUserReturnsUser() throws {
-        let createdUser = try userRepo.createDefaultUserIfNeeded()
+        let createdUser = try userRepo.ensureDefaultUserExists()
 
         let fetchedUser = try userRepo.fetchSingleUser()
         XCTAssertNotNil(fetchedUser)
@@ -42,9 +42,9 @@ class UserRepositoryTests: XCTestCase {
     }
     
     func testCreateDefaultUserIfNeededReturnsSameUserOnSubsequentCalls() throws {
-        let user1 = try userRepo.createDefaultUserIfNeeded()
+        let user1 = try userRepo.ensureDefaultUserExists()
 
-        let user2 = try userRepo.createDefaultUserIfNeeded()
+        let user2 = try userRepo.ensureDefaultUserExists()
         XCTAssertEqual(user1.objectID, user2.objectID)
     }
 }

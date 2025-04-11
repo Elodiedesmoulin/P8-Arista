@@ -19,7 +19,7 @@ class SleepHistoryViewModelTests: CoreDataTestCase {
         super.setUp()
         userRepository = UserRepository(context: viewContext)
         do {
-            defaultUser = try userRepository.createDefaultUserIfNeeded()
+            defaultUser = try userRepository.ensureDefaultUserExists()
         } catch {
             XCTFail("Error when creating user: \(error)")
         }

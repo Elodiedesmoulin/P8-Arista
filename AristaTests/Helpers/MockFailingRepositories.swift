@@ -14,7 +14,7 @@ class FailingUserRepository: UserRepository {
         throw AppError.repositoryError("FailingUserRepository error")
     }
     
-    override func createDefaultUserIfNeeded() throws -> User {
+    override func ensureDefaultUserExists() throws -> User {
         throw AppError.repositoryError("FailingUserRepository error")
     }
 }

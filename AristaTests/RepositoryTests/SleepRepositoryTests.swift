@@ -32,7 +32,7 @@ class SleepRepositoryTests: XCTestCase {
     }
     
     func testFetchAllSleepSessionsSortedByDateDescending() throws {
-        let user = try userRepo.createDefaultUserIfNeeded()
+        let user = try userRepo.ensureDefaultUserExists()
         let sleepCurrentDate = try sleepRepo.createSleepSession(startDate: date,
                                                                 duration: 450,
                                                                 quality: 9,
@@ -54,7 +54,7 @@ class SleepRepositoryTests: XCTestCase {
     }
     
     func testDeleteSleepSessionRemovesSession() throws {
-        let user = try userRepo.createDefaultUserIfNeeded()
+        let user = try userRepo.ensureDefaultUserExists()
         let newSleep = try sleepRepo.createSleepSession(startDate: date,
                                                         duration: 450,
                                                         quality: 9,

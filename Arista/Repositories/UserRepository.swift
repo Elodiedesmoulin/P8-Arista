@@ -22,7 +22,7 @@ class UserRepository {
         return users.first
     }
 
-    func createDefaultUserIfNeeded() throws -> User {
+    func ensureDefaultUserExists() throws -> User {
         if let existingUser = try fetchSingleUser() {
             return existingUser
         } else {
