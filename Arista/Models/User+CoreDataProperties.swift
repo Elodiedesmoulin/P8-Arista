@@ -24,7 +24,6 @@ extension User {
 
 }
 
-// MARK: Generated accessors for exercises
 extension User {
 
     @objc(addExercisesObject:)
@@ -41,7 +40,6 @@ extension User {
 
 }
 
-// MARK: Generated accessors for sleeps
 extension User {
 
     @objc(addSleepsObject:)

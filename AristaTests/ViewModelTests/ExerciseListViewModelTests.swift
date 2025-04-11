@@ -10,38 +10,31 @@ import XCTest
 import CoreData
 @testable import Arista
 
-class ExerciseListViewModelTests: XCTestCase {
+class ExerciseListViewModelTests: CoreDataTestCase {
     
-    var persistentContainer: NSPersistentContainer!
+    var userRepository: UserRepository!
+    var defaultUser: User!
     
     override func setUp() {
         super.setUp()
-        persistentContainer = PersistenceController(inMemory: true).container
-    }
-    
-    override func tearDown() {
-        persistentContainer = nil
-        super.tearDown()
+        userRepository = UserRepository(context: viewContext)
+        do {
+            defaultUser = try userRepository.createDefaultUserIfNeeded()
+        } catch {
+            XCTFail("Error during default user creation: \(error)")
+        }
     }
     
     func testFetchExercisesSuccess() throws {
-        let context = persistentContainer.viewContext
-        // Crée un utilisateur
-        let user = User(context: context)
-        user.firstName = "Bob"
-        user.lastName = "Marley"
-        user.email = "bob@example.com"
-        user.password = "reggae"
-        try context.save()
+        let context = viewContext
         
-        // Crée un exercice
         let exercise = Exercise(context: context)
         exercise.id = UUID()
         exercise.exerciseCategory = .running
         exercise.date = Date()
         exercise.duration = 45
         exercise.intensity = 7
-        exercise.user = user
+        exercise.user = defaultUser
         try context.save()
         
         let exerciseRepo = ExerciseRepository(context: context)
@@ -53,7 +46,7 @@ class ExerciseListViewModelTests: XCTestCase {
     }
     
     func testFetchExercisesFailure() {
-        let failingExerciseRepo = FailingExerciseRepository(context: persistentContainer.viewContext)
+        let failingExerciseRepo = FailingExerciseRepository(context: viewContext)
         let viewModel = ExerciseListViewModel(exerciseRepository: failingExerciseRepo)
         
         XCTAssertNotNil(viewModel.error)
@@ -65,16 +58,14 @@ class ExerciseListViewModelTests: XCTestCase {
     }
     
     func testDeleteExerciseSuccess() throws {
-        let context = persistentContainer.viewContext
-        let user = User(context: context)
-        user.firstName = "Carol"
-        user.lastName = "King"
-        user.email = "carol@example.com"
-        user.password = "song"
-        try context.save()
+        let context = viewContext
         
         let exerciseRepo = ExerciseRepository(context: context)
-        let exercise = try exerciseRepo.createExercise(category: .football, date: Date(), duration: 30, intensity: 6, user: user)
+        let exercise = try exerciseRepo.createExercise(category: .football,
+                                                         date: Date(),
+                                                         duration: 30,
+                                                         intensity: 6,
+                                                         user: defaultUser)
         let viewModel = ExerciseListViewModel(exerciseRepository: exerciseRepo)
         XCTAssertEqual(viewModel.exercises.count, 1)
         
@@ -84,25 +75,19 @@ class ExerciseListViewModelTests: XCTestCase {
     }
     
     func testDeleteExerciseFailure() {
-        let failingExerciseRepo = FailingExerciseRepository(context: persistentContainer.viewContext)
+        let failingExerciseRepo = FailingExerciseRepository(context: viewContext)
         let viewModel = ExerciseListViewModel(exerciseRepository: failingExerciseRepo)
         
-        let context = persistentContainer.viewContext
-        let user = User(context: context)
-        user.firstName = "Test"
-        user.lastName = "User"
-        user.email = "test@example.com"
-        user.password = "123"
-        let dummyExercise = Exercise(context: context)
-        dummyExercise.id = UUID()
-        dummyExercise.exerciseCategory = .running
-        dummyExercise.date = Date()
-        dummyExercise.duration = 30
-        dummyExercise.intensity = 6
-        dummyExercise.user = user
-        try? context.save()
+        let exercise = Exercise(context: viewContext)
+        exercise.id = UUID()
+        exercise.exerciseCategory = .running
+        exercise.date = Date()
+        exercise.duration = 30
+        exercise.intensity = 6
+        exercise.user = defaultUser
+        try? viewContext.save()
         
-        viewModel.deleteExercise(dummyExercise)
+        viewModel.deleteExercise(exercise)
         XCTAssertNotNil(viewModel.error)
         if case let AppError.repositoryError(message)? = viewModel.error {
             XCTAssertEqual(message, "FailingExerciseRepository error")

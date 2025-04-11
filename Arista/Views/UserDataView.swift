@@ -28,8 +28,3 @@ struct UserDataView: View {
     }
 }
 
-//#Preview {
-//    let context = PersistenceController.preview.container.viewContext
-//    let userRepo = CoreDataUserRepository(context: context)
-//    UserDataView(viewModel: UserDataViewModel(userRepository: userRepo))
-//}

@@ -9,22 +9,10 @@ import XCTest
 import CoreData
 @testable import Arista
 
-class UserDataViewModelTests: XCTestCase {
-    
-    var persistentContainer: NSPersistentContainer!
-    
-    override func setUp() {
-        super.setUp()
-        persistentContainer = PersistenceController(inMemory: true).container
-    }
-    
-    override func tearDown() {
-        persistentContainer = nil
-        super.tearDown()
-    }
-    
+class UserDataViewModelTests: CoreDataTestCase {
+
     func testFetchUserSuccess() throws {
-        let context = persistentContainer.viewContext
+        let context = viewContext
         let user = User(context: context)
         user.firstName = "Alice"
         user.lastName = "Wonderland"
@@ -43,7 +31,7 @@ class UserDataViewModelTests: XCTestCase {
     }
     
     func testFetchUserFailure() {
-        let failingUserRepo = FailingUserRepository(context: persistentContainer.viewContext)
+        let failingUserRepo = FailingUserRepository(context: viewContext)
         let viewModel = UserDataViewModel(userRepository: failingUserRepo)
         
         XCTAssertNotNil(viewModel.error)

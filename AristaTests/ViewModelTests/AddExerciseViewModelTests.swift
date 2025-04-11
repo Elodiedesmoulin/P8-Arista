@@ -10,22 +10,10 @@ import XCTest
 import CoreData
 @testable import Arista
 
-class AddExerciseViewModelTests: XCTestCase {
-    
-    var persistentContainer: NSPersistentContainer!
-    
-    override func setUp() {
-        super.setUp()
-        persistentContainer = PersistenceController(inMemory: true).container
-    }
-    
-    override func tearDown() {
-        persistentContainer = nil
-        super.tearDown()
-    }
+class AddExerciseViewModelTests: CoreDataTestCase {
     
     func testAddExerciseSuccess() throws {
-        let context = persistentContainer.viewContext
+        let context = viewContext
         let userRepo = UserRepository(context: context)
         _ = try userRepo.createDefaultUserIfNeeded()
         
@@ -35,9 +23,7 @@ class AddExerciseViewModelTests: XCTestCase {
         viewModel.selectedCategory = .running
         viewModel.duration = "50"
         viewModel.intensity = "7"
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy HH:mm"
-        viewModel.startTime = formatter.string(from: Date())
+        viewModel.startTime = DateFormatter.testFormatter.string(from: Date())
         
         let result = viewModel.addExercise()
         XCTAssertTrue(result)
@@ -46,7 +32,7 @@ class AddExerciseViewModelTests: XCTestCase {
     }
     
     func testAddExerciseInvalidDuration() throws {
-        let context = persistentContainer.viewContext
+        let context = viewContext
         let userRepo = UserRepository(context: context)
         let exerciseRepo = ExerciseRepository(context: context)
         let viewModel = AddExerciseViewModel(exerciseRepository: exerciseRepo, userRepository: userRepo)
@@ -62,7 +48,7 @@ class AddExerciseViewModelTests: XCTestCase {
     }
     
     func testAddExerciseInvalidIntensity() throws {
-        let context = persistentContainer.viewContext
+        let context = viewContext
         let userRepo = UserRepository(context: context)
         let exerciseRepo = ExerciseRepository(context: context)
         let viewModel = AddExerciseViewModel(exerciseRepository: exerciseRepo, userRepository: userRepo)
@@ -78,7 +64,7 @@ class AddExerciseViewModelTests: XCTestCase {
     }
     
     func testAddExerciseInvalidStartTime() throws {
-        let context = persistentContainer.viewContext
+        let context = viewContext
         let userRepo = UserRepository(context: context)
         let exerciseRepo = ExerciseRepository(context: context)
         let viewModel = AddExerciseViewModel(exerciseRepository: exerciseRepo, userRepository: userRepo)
@@ -94,16 +80,14 @@ class AddExerciseViewModelTests: XCTestCase {
     }
     
     func testAddExerciseUserNotFound() throws {
-        let context = persistentContainer.viewContext
-        let failingUserRepo = FailingUserRepository(context: persistentContainer.viewContext)
+        let context = viewContext
+        let failingUserRepo = FailingUserRepository(context: context)
         let exerciseRepo = ExerciseRepository(context: context)
         let viewModel = AddExerciseViewModel(exerciseRepository: exerciseRepo, userRepository: failingUserRepo)
         
         viewModel.duration = "50"
         viewModel.intensity = "7"
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy HH:mm"
-        viewModel.startTime = formatter.string(from: Date())
+        viewModel.startTime = DateFormatter.testFormatter.string(from: Date())
         
         let result = viewModel.addExercise()
         XCTAssertFalse(result)
@@ -112,17 +96,15 @@ class AddExerciseViewModelTests: XCTestCase {
     }
     
     func testAddExerciseRepositoryError() throws {
-        let context = persistentContainer.viewContext
+        let context = viewContext
         let userRepo = UserRepository(context: context)
         _ = try userRepo.createDefaultUserIfNeeded()
-        let failingExerciseRepo = FailingExerciseRepository(context: persistentContainer.viewContext)
+        let failingExerciseRepo = FailingExerciseRepository(context: context)
         let viewModel = AddExerciseViewModel(exerciseRepository: failingExerciseRepo, userRepository: userRepo)
         
         viewModel.duration = "50"
         viewModel.intensity = "7"
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy HH:mm"
-        viewModel.startTime = formatter.string(from: Date())
+        viewModel.startTime = DateFormatter.testFormatter.string(from: Date())
         
         let result = viewModel.addExercise()
         XCTAssertFalse(result)

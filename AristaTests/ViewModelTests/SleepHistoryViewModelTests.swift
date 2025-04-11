@@ -10,43 +10,37 @@ import XCTest
 import CoreData
 @testable import Arista
 
-class SleepHistoryViewModelTests: XCTestCase {
+class SleepHistoryViewModelTests: CoreDataTestCase {
     
-    var persistentContainer: NSPersistentContainer!
+    var userRepository: UserRepository!
+    var defaultUser: User!
     
     override func setUp() {
         super.setUp()
-        persistentContainer = PersistenceController(inMemory: true).container
-    }
-    
-    override func tearDown() {
-        persistentContainer = nil
-        super.tearDown()
+        userRepository = UserRepository(context: viewContext)
+        do {
+            defaultUser = try userRepository.createDefaultUserIfNeeded()
+        } catch {
+            XCTFail("Error when creating user: \(error)")
+        }
     }
     
     func testFetchSleepDataSuccess() throws {
-        let context = persistentContainer.viewContext
-
-        let user = User(context: context)
-        user.firstName = "Dave"
-        user.lastName = "Grohl"
-        user.email = "dave@example.com"
-        user.password = "foo"
-        try context.save()
+        let context = viewContext
         
         let sleep1 = Sleep(context: context)
         sleep1.id = UUID()
         sleep1.startDate = Date()
         sleep1.duration = 420
         sleep1.quality = 8
-        sleep1.user = user
+        sleep1.user = defaultUser
         
         let sleep2 = Sleep(context: context)
         sleep2.id = UUID()
         sleep2.startDate = Date().addingTimeInterval(-3600)
         sleep2.duration = 360
         sleep2.quality = 6
-        sleep2.user = user
+        sleep2.user = defaultUser
         
         try context.save()
         
@@ -58,7 +52,7 @@ class SleepHistoryViewModelTests: XCTestCase {
     }
     
     func testFetchSleepDataFailure() {
-        let failingSleepRepo = FailingSleepRepository(context: persistentContainer.viewContext)
+        let failingSleepRepo = FailingSleepRepository(context: viewContext)
         let viewModel = SleepHistoryViewModel(sleepRepository: failingSleepRepo)
         
         XCTAssertNotNil(viewModel.error)

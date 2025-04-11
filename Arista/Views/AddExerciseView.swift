@@ -49,16 +49,3 @@ struct AddExerciseView: View {
         }
     }
 }
-
-//#Preview {
-//    let context = PersistenceController.preview.container.viewContext
-//     AddExerciseView(
-//        viewModel: AddExerciseViewModel(
-//            exerciseRepository: CoreDataExerciseRepository(context: context),
-//            userRepository: CoreDataUserRepository(context: context)
-//        ),
-//        onExerciseAdded: {}
-//    )
-//}
-
-
