@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct SleepHistoryView: View {
-    @ObservedObject var viewModel: SleepHistoryViewModel
+struct SleepListView: View {
+    @ObservedObject var viewModel: SleepListViewModel
     @State private var showingAddSleepView = false
     @Environment(\.managedObjectContext) private var viewContext
 

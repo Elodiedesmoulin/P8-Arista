@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SleepHistoryViewModel: ObservableObject {
+class SleepListViewModel: ObservableObject {
     @Published var sleepSessions: [Sleep] = []
     @Published var error: AppError? = nil
 

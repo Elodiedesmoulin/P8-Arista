@@ -10,7 +10,7 @@ import XCTest
 import CoreData
 @testable import Arista
 
-class SleepHistoryViewModelTests: CoreDataTestCase {
+class SleepListViewModelTests: CoreDataTestCase {
     
     var userRepository: UserRepository!
     var defaultUser: User!
@@ -45,7 +45,7 @@ class SleepHistoryViewModelTests: CoreDataTestCase {
         try context.save()
         
         let sleepRepo = SleepRepository(context: context)
-        let viewModel = SleepHistoryViewModel(sleepRepository: sleepRepo)
+        let viewModel = SleepListViewModel(sleepRepository: sleepRepo)
         
         XCTAssertEqual(viewModel.sleepSessions.count, 2)
         XCTAssertNil(viewModel.error)
@@ -53,7 +53,7 @@ class SleepHistoryViewModelTests: CoreDataTestCase {
     
     func testFetchSleepDataFailure() {
         let failingSleepRepo = FailingSleepRepository(context: viewContext)
-        let viewModel = SleepHistoryViewModel(sleepRepository: failingSleepRepo)
+        let viewModel = SleepListViewModel(sleepRepository: failingSleepRepo)
         
         XCTAssertNotNil(viewModel.error)
         if case let AppError.repositoryError(message)? = viewModel.error {
